@@ -49,16 +49,8 @@ order by totalDelivered desc limit 1;`
 
 ### 7. For each customer, how many delivered pizzas had at least 1 change, and how many had no changes?
 
-`select o.customer_id,
-sum( case when(o.exclusions is not null and exclusions !=0) or (o.extras is not null and o.extras!=0)then 1 else 0 end )as leastOneChange,
-sum( case 
-  when (exclusions is null or exclusions = 0) and (extras is null or extras = 0) then 1
-        else 0
-        end )as noChange
- from customer_orders1 o join runner_orders1 r on o.order_id = r.order_id
-where r.distance is not null
-GROUP BY o.customer_id;
-`
+`select o.customer_id,sum( case when(o.exclusions is not null and exclusions !=0) or (o.extras is not null and o.extras!=0)then 1 else 0 end )as leastOneChange,sum( case when (exclusions is null or exclusions = 0) and (extras is null or extras = 0) then 1 else 0 end )as noChange from customer_orders1 o join runner_orders1 r on o.order_id = r.order_id where r.distance is not null GROUP BY o.customer_id;`
+
 --------------------------------------------------------------------------
 
 ### 8. How many pizzas were delivered that had both exclusions and extras?
@@ -123,8 +115,8 @@ select totalPizza, AvgTime from cte group by totalPizza,AvgTime;
 ### 4. What was the average distance travelled for each customer?
 
 `select customer_id,round(avg(distance),1) as AvgDistance from runner_orders1 r join customer_orders1 o on r.order_id = o.order_id
-group by customer_id;
-`
+group by customer_id;`
+
 --------------------------------------------------------------------------
 
 ### 5. What was the difference between the longest and shortest delivery times for all orders?
